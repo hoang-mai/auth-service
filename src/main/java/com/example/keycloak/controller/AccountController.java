@@ -1,9 +1,11 @@
 package com.example.keycloak.controller;
 
+import com.example.keycloak.component.MessageService;
 import com.example.keycloak.dto.account.CreateAccountDTO;
 import com.example.keycloak.service.AccountService;
 import com.example.keycloak.util.BaseResponse;
 import com.example.keycloak.util.Constant;
+import com.example.keycloak.util.MessageSuccess;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(value = Constant.ACCOUNT)
+@RestController()
+@RequestMapping(Constant.ACCOUNT)
 @RequiredArgsConstructor
 public class AccountController {
 
+    private final MessageService messageService;
     private final AccountService accountService;
 
     @PostMapping("/create")
@@ -27,7 +31,7 @@ public class AccountController {
                 .body(BaseResponse
                         .<Void>builder()
                         .statusCode(HttpStatus.CREATED.value())
-                        .message("Account created successfully")
+                        .message(messageService.getMessage(MessageSuccess.ACCOUNT_CREATED_SUCCESS))
                         .build());
     }
 }
